@@ -1,47 +1,94 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+  <div class="calculator">
+    <div class="display">{{ display }}</div>
+    <div class="buttons">
+      <button @click="clear">C</button>
+      <button @click="appendToDisplay('7')">7</button>
+      <button @click="appendToDisplay('8')">8</button>
+      <button @click="appendToDisplay('9')">9</button>
+      <button @click="appendToDisplay('+')">+</button>
+      <button @click="appendToDisplay('4')">4</button>
+      <button @click="appendToDisplay('5')">5</button>
+      <button @click="appendToDisplay('6')">6</button>
+      <button @click="appendToDisplay('-')">-</button>
+      <button @click="appendToDisplay('1')">1</button>
+      <button @click="appendToDisplay('2')">2</button>
+      <button @click="appendToDisplay('3')">3</button>
+      <button @click="appendToDisplay('*')">*</button>
+      <button @click="appendToDisplay('0')">0</button>
+      <button @click="appendToDisplay('.')">.</button>
+      <button @click="calculate">=</button>
+      <button @click="appendToDisplay('/')">/</button>
     </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  </div>
 </template>
 
+<script>
+export default {
+  data() {
+    return {
+      display: '',
+    };
+  },
+  methods: {
+    appendToDisplay(value) {
+      this.display += value;
+    },
+    clear() {
+      this.display = '';
+    },
+    calculate() {
+      try {
+        this.display = eval(this.display);
+      } catch (error) {
+        this.display = 'Error';
+      }
+    },
+  },
+};
+</script>
+
 <style scoped>
-header {
-  line-height: 1.5;
+.calculator {
+  width: 300px;
+  margin: 0 auto;
+  text-align: center;
+  background-color: #444;
+  padding: 10px;
+  border-radius: 5px;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+.display {
+  background: #222;
+  height: 50px;
+  line-height: 50px;
+  font-size: 24px;
+  color: #fff;
 }
 
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
+.buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
 
-  .logo {
-    margin: 0 2rem 0 0;
-  }
+button {
+  background: #333;
+  color: #fff;
+  border: none;
+  height: 50px;
+  font-size: 18px;
+  transition: background 0.2s;
+}
 
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
+button:hover {
+  background: #555;
+}
+
+.operator {
+  background: #f44336; /* Red for operators */
+}
+
+.operator:hover {
+  background: #d32f2f; /* Darker red on hover */
 }
 </style>
